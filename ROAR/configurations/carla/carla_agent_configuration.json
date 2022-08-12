@@ -93,14 +93,15 @@
     ]
   },
   "_comments": "// if you would like to use your own map, please put it under ROAR/configurations/YOUR_WAYPOINT.txt",
-  "waypoint_file_path": "./ROAR_Sim/data/easy_map_waypoints.txt",
-  "pid_config_file_path": "./ROAR/configurations/carla/carla_pid_config.json",
-  "simple_waypoint_local_planner_config_file_path": "./ROAR/configurations/carla/carla_simple_waypoint_local_planner_config.json",
-  "output_data_folder_path": "./data/output",
+  "waypoint_file_path": "./data/redmellon_waypoints.txt",
+  "pid_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_config.json",
+  "simple_waypoint_local_planner_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_waypoint_lookahead.json",
+  "output_data_folder_path": "./data/",
   "enable_autopilot": true,
-  "spawn_point_id": 12,
+  "spawn_point_id": 2,
   "show_sensors_data": true,
   "save_sensor_data": false,
-  "max_speed": 100
+  "max_speed": 300,
+  "num_laps": 1
 }
 

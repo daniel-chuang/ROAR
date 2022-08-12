@@ -4,20 +4,30 @@ from ROAR.utilities_module.vehicle_models import Vehicle, VehicleControl
 from ROAR.configurations.configuration import Configuration as AgentConfig
 from pathlib import Path
 
+# showing map
+from ROAR.utilities_module.waypoint_tuning import show_map, prep_map
 
-class WaypointGeneratigAgent(Agent):
+class WaypointGeneratingAgent(Agent):
     def __init__(self, vehicle: Vehicle, agent_settings: AgentConfig, **kwargs):
         super().__init__(vehicle=vehicle, agent_settings=agent_settings, **kwargs)
-        self.output_file_path: Path = self.output_folder_path / "easy_map_waypoints.txt"
+        self.output_file_path: Path = self.output_folder_path / "waypoints.txt"
         if self.output_folder_path.exists() is False:
             self.output_folder_path.mkdir(exist_ok=True, parents=True)
         self.output_file = self.output_file_path.open('w')
+        self.map = prep_map()
 
 
     def run_step(self, sensors_data: SensorsData,
                  vehicle: Vehicle) -> VehicleControl:
-        super(WaypointGeneratigAgent, self).run_step(sensors_data=sensors_data,
+        super(WaypointGeneratingAgent, self).run_step(sensors_data=sensors_data,
                                                      vehicle=vehicle)
+        
+        # Showing minimap
+        # Showing live minimap
+        car_coords = [float(i) for i in self.vehicle.transform.record().split(",")]
+        self.map = show_map(self.map, (car_coords[0], car_coords[2]), self.vehicle.get_speed(self.vehicle))
+        self.transform_history.append(self.vehicle.transform)
+
         if self.time_counter > 1:
             print(f"Writing to [{self.output_file_path}]: {self.vehicle.transform}")
             self.output_file.write(self.vehicle.transform.record() + "\n")

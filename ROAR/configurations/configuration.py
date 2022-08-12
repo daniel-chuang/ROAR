@@ -9,7 +9,7 @@ class Configuration(BaseModel):
     # ROAR sensors settings
     name: str = Field(default="hero", title="Name of the agent", description="Duplicate from Carla Setting. "
                                                                              "But good to have")
-    lidar_config: LidarConfigModel = Field(default=LidarConfigModel()),
+    lidar_config: LidarConfigModel = Field(default=LidarConfigModel())
     front_depth_cam: Camera = Field(default=Camera(fov=70,
                                                    transform=Transform(
                                                        location=Location(x=1.6,
@@ -85,7 +85,6 @@ class Configuration(BaseModel):
     lqr_config_file_path: str = Field(default="./ROAR_Sim/configurations/lqr_config.json")
     occu_map_config_path: str = Field(default="./ROAR_Sim/configurations/occu_map_config.json")
     obstacle_from_depth_config_path: str = Field(default="./ROAR_Sim/configurations/obstacle_from_depth_config.json")
-    mpc_config_file_path: str = Field(default="./ROAR/configurations/carla_full_mpc_config.json")
 
     simple_waypoint_local_planner_config_file_path: str = \
         Field(default="./ROAR_Sim/configurations/simple_waypoint_local_planner_config.json")
