@@ -50,8 +50,8 @@ class PIDFastAgent(Agent):
         self.speed = self.vehicle.get_speed(self.vehicle)
         self.throttle = self.vehicle.control.throttle
         self.car_coords = [float(i) for i in self.vehicle.transform.record().split(",")][0:3:2]
-        #self.map = show_map(self.map, self.car_coords, self.speed, self.throttle)
-        show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
+        self.map = show_map(self.map, self.car_coords, self.speed, self.throttle)
+        #show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
         self.transform_history.append(self.vehicle.transform)
         
         # print(self.vehicle.transform, self.vehicle.velocity)
