@@ -26,10 +26,11 @@ class PIDFastAgent(Agent):
         self.behavior_planner = BehaviorPlanner(agent=self)
         self.local_planner = SimpleWaypointFollowingLocalPlanner(
             agent=self,
+            spawn_point_id=self.agent_settings.spawn_point_id,
             controller=self.pid_controller,
             mission_planner=self.mission_planner,
             behavior_planner=self.behavior_planner,
-            closeness_threshold=1) # original 1
+            closeness_threshold=1,) # original 1
         self.logger.debug(
             f"Waypoint Following Agent Initiated. Reading f"
             f"rom {self.route_file_path.as_posix()}")
@@ -52,10 +53,14 @@ class PIDFastAgent(Agent):
         self.car_coords = [float(i) for i in self.vehicle.transform.record().split(",")][0:3:2]
         self.map = show_map(self.map, self.car_coords, self.speed, self.throttle)
         #show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
-        self.transform_history.append(self.vehicle.transform)
-        
+
+        # Checking for checkpoint
+        checkpoint(self.checkpoints, self.car_coords)
+
+
+        # Other
+        self.transform_history.append(self.vehicle.transform)        
         # print(self.vehicle.transform, self.vehicle.velocity)
-        
         if self.is_done:
             control = VehicleControl()
             self.logger.debug("Path Following Agent is Done. Idling.")

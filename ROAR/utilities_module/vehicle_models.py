@@ -12,6 +12,7 @@ class VehicleControl(BaseModel):
 
     @staticmethod
     def clamp(n, minn, maxn):
+        print("HSAFASDF")
         return max(min(maxn, n), minn)
 
     def get_throttle(self) -> float:

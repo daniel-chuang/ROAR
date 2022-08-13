@@ -1,3 +1,4 @@
+from distutils.spawn import spawn
 from ROAR.planning_module.local_planner.local_planner import LocalPlanner
 from ROAR.utilities_module.data_structures_models import Transform
 from ROAR.utilities_module.vehicle_models import Vehicle, VehicleControl
@@ -19,6 +20,7 @@ from pathlib import Path
 class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
     def __init__(
             self,
+            spawn_point_id: int,
             agent: Agent,
             controller: Controller,
             mission_planner: MissionPlanner,
@@ -39,6 +41,7 @@ class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
                          mission_planner=mission_planner,
                          behavior_planner=behavior_planner,
                          )
+        self.spawn_point_id = spawn_point_id
         self.logger = logging.getLogger("SimplePathFollowingLocalPlanner")
         self.set_mission_plan()
         self.logger.debug("Simple Path Following Local Planner Initiated")
@@ -55,6 +58,7 @@ class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
         Returns:
             None
         """
+        print("CLEARING")
         self.way_points_queue.clear()
         while (
                 self.mission_planner.mission_plan
@@ -64,15 +68,15 @@ class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
         # set waypoint queue to current spawn location
         # 1. find closest waypoint
         # 2. remove all waypoints prior to closest waypoint
-
-        closest_waypoint = self.way_points_queue[0]
-        for waypoint in self.way_points_queue:
-            cur_dist = self.agent.vehicle.transform.location.distance(waypoint.location)
-            closest_dist = self.agent.vehicle.transform.location.distance(closest_waypoint.location)
-            if  cur_dist < closest_dist:
-                closest_waypoint = waypoint
-        while self.way_points_queue[0] != closest_waypoint:
-            self.way_points_queue.popleft()
+        if self.spawn_point_id != 12:
+            closest_waypoint = self.way_points_queue[0]
+            for waypoint in self.way_points_queue:
+                cur_dist = self.agent.vehicle.transform.location.distance(waypoint.location)
+                closest_dist = self.agent.vehicle.transform.location.distance(closest_waypoint.location)
+                if  cur_dist < closest_dist:
+                    closest_waypoint = waypoint
+            while self.way_points_queue[0] != closest_waypoint:
+                self.way_points_queue.popleft()
 
 
     def is_done(self) -> bool:
@@ -141,8 +145,8 @@ class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
             print(vehicle_transform.location)
         '''
         waypoint_lookahead = round(pow(current_speed, 2)*0.002 + 0.7*current_speed)
-        far_waypoint = self.way_points_queue[waypoint_lookahead]
-        close_waypoint = self.way_points_queue[min(120, waypoint_lookahead)]
+        far_waypoint = self.way_points_queue[min(waypoint_lookahead, len(self.way_points_queue) - 1)]
+        close_waypoint = self.way_points_queue[min(120, waypoint_lookahead, len(self.way_points_queue) - 1)]
         
         control: VehicleControl = self.controller.run_in_series(next_waypoint=target_waypoint, close_waypoint=close_waypoint, far_waypoint=far_waypoint)
         # self.logger.debug(f"\n"

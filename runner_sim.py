@@ -9,6 +9,7 @@ from misc.utils import str2bool
 from ROAR.agent_module.forward_only_agent import ForwardOnlyAgent
 
 # my import
+from ROAR.agent_module.pid_agent import PIDAgent
 from ROAR.agent_module.pid_fast_agent import PIDFastAgent
 
 def main(args):

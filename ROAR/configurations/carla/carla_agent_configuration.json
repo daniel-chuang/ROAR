@@ -98,7 +98,7 @@
   "simple_waypoint_local_planner_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_waypoint_lookahead.json",
   "output_data_folder_path": "./data/",
   "enable_autopilot": true,
-  "spawn_point_id": 5,
+  "spawn_point_id": 12,
   "show_sensors_data": true,
   "save_sensor_data": false,
   "max_speed": 300,
