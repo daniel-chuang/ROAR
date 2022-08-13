@@ -36,11 +36,11 @@ class PIDFastAgent(Agent):
             f"rom {self.route_file_path.as_posix()}")
         
         # For waypoint tuning
-        self.checkpoints = prep_checkpoints(os.path.join("ROAR", "data", "checkpoints.csv"))
+        self.checkpoints = prep_checkpoints(os.path.join("ROAR", "datasets", "checkpoints.csv"))
 
         # For map visualizations
-        self.map = prep_map_visualization(os.path.join("ROAR", "data", "birds_eye_map.npy"), os.path.join("ROAR", "data", "checkpoints.csv"))
-        self.lane_map = prep_map_visualization(os.path.join("ROAR", "data", "birds_eye_map.npy"), os.path.join("ROAR", "data", "checkpoints.csv"))
+        self.map = prep_map_visualization(os.path.join("ROAR", "datasets", "birds_eye_map.npy"), os.path.join("ROAR", "datasets", "checkpoints.csv"))
+        self.lane_map = prep_map_visualization(os.path.join("ROAR", "datasets", "birds_eye_map.npy"), os.path.join("ROAR", "datasets", "checkpoints.csv"))
 
     def run_step(self, vehicle: Vehicle,
                  sensors_data: SensorsData) -> VehicleControl:

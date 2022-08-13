@@ -93,10 +93,10 @@
     ]
   },
   "_comments": "// if you would like to use your own map, please put it under ROAR/configurations/YOUR_WAYPOINT.txt",
-  "waypoint_file_path": "./ROAR/data/redmellon_waypoints.txt",
+  "waypoint_file_path": "./ROAR/datasets/redmellon_waypoints.txt",
   "pid_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_config.json",
   "simple_waypoint_local_planner_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_waypoint_lookahead.json",
-  "output_data_folder_path": "./data/",
+  "output_data_folder_path": "./ROAR/datasets/",
   "enable_autopilot": true,
   "spawn_point_id": 12,
   "show_sensors_data": true,
