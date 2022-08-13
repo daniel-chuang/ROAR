@@ -15,8 +15,8 @@ class WaypointGeneratingAgent(Agent):
         if self.output_folder_path.exists() is False:
             self.output_folder_path.mkdir(exist_ok=True, parents=True)
         self.output_file = self.output_file_path.open('w')
-        self.map = prep_map_visualization(os.path.join("data", "birds_eye_map.npy"), os.path.join("data", "checkpoints.csv"))
-        self.lane_map = prep_map_visualization(os.path.join("data", "birds_eye_map.npy"), os.path.join("data", "checkpoints.csv"))
+        self.map = prep_map_visualization(os.path.join("ROAR", "data", "birds_eye_map.npy"), os.path.join("ROAR", "data", "checkpoints.csv"))
+        self.lane_map = prep_map_visualization(os.path.join("ROAR", "data", "birds_eye_map.npy"), os.path.join("ROAR", "data", "checkpoints.csv"))
 
 
     def run_step(self, sensors_data: SensorsData,
