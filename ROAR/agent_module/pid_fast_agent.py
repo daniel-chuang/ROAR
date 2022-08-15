@@ -48,6 +48,12 @@ class PIDFastAgent(Agent):
         self.map = prep_map_visualization(os.path.join("ROAR", "datasets", "birds_eye_map.npy"), os.path.join("ROAR", "datasets", "checkpoints.csv"))
         self.lane_map = prep_map_visualization(os.path.join("ROAR", "datasets", "birds_eye_map.npy"), os.path.join("ROAR", "datasets", "checkpoints.csv"))
 
+        # For returning current time
+        self.return_time = False
+
+    def call_in_carla_runner_to_return_time(self):
+        return self.return_time
+
     def run_step(self, vehicle: Vehicle,
                  sensors_data: SensorsData) -> VehicleControl:
         super(PIDFastAgent, self).run_step(vehicle=vehicle,
@@ -61,7 +67,12 @@ class PIDFastAgent(Agent):
         #show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
 
         # Checking for checkpoint
-        checkpoint(self.checkpoints, self.car_coords)
+        cur_checkpoint = checkpoint(self.checkpoints, self.car_coords)
+        if cur_checkpoint is not None:
+            print(f"AT CHECKPOINT {cur_checkpoint}")
+            self.return_time = True
+            self.call_in_carla_runner_to_return_time()
+            self.return_time = False
 
 
         # Other
