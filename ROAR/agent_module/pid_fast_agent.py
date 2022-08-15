@@ -18,11 +18,17 @@ class PIDFastAgent(Agent):
         super().__init__(**kwargs)
         self.target_speed = target_speed
         self.logger = logging.getLogger("PID Agent")
-        self.route_file_path = Path(self.agent_settings.waypoint_file_path)
+
+        # Combining all waypoint files into one
+        self.waypoints_folder = os.path.join(os.path.normpath(self.agent_settings.waypoint_file_path + os.sep + os.pardir))
+        self.all_waypoints_file = os.path.join(self.waypoints_folder, "all_waypoints.txt")
+        self.waypoints_file_paths_list = [os.path.join(self.waypoints_folder, file) for file in os.listdir(self.waypoints_folder) if "all_waypoints.txt" not in file]
+        combine_waypoints(self.all_waypoints_file, *self.waypoints_file_paths_list)
+
+        self.route_file_path = Path(self.all_waypoints_file)
         self.pid_controller = PIDFastController(agent=self, steering_boundary=(-1, 1), throttle_boundary=(0, 1))
         self.mission_planner = WaypointFollowingMissionPlanner(agent=self)
         # initiated right after mission plan
-
         self.behavior_planner = BehaviorPlanner(agent=self)
         self.local_planner = SimpleWaypointFollowingLocalPlanner(
             agent=self,

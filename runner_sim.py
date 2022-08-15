@@ -19,9 +19,14 @@ def main(args):
 
     carla_runner = CarlaRunner(carla_settings=carla_config,
                                agent_settings=agent_config,
-                               npc_agent_class=PurePursuitAgent)
+                               npc_agent_class=PurePursuitAgent,
+                               start_bbox=[2530, 99, 4064, 2543, 120, 4076],
+                               competition_mode=True,
+                               lap_count=1)
+
     try:
         my_vehicle = carla_runner.set_carla_world()
+        print(get_run_time(carla_runner))
         agent = PIDFastAgent(vehicle=my_vehicle,
                          agent_settings=agent_config)
         carla_runner.start_game_loop(agent=agent,
@@ -35,6 +40,9 @@ def main(args):
     finally:
         print("Time: " + str(carla_runner.end_simulation_time - carla_runner.start_simulation_time)) # based off time.time
 
+def get_run_time(carla_runner):
+    # Gets the run time in the sim
+    return carla_runner.world.carla_world.get_snapshot().elapsed_seconds
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s - %(asctime)s - %(name)s '

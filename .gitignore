@@ -147,7 +147,4 @@ misc/logs/*
 misc/depth_nvidia_model_logs
 credential.json
 
-# Other files
-ROAR/datasets/birds_eye_map.npy
-
 .DS_Store

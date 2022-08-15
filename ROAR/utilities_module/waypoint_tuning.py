@@ -6,6 +6,16 @@ import csv
 import typing
 
 
+### PREPPING WAYPOINTS ###
+def combine_waypoints(new_waypoint_file_path, *waypoint_file_paths):
+    total = ""
+    for waypoint_file_path in waypoint_file_paths:
+        waypoint_file = open(waypoint_file_path, "r")
+        total += waypoint_file.read()
+    new_waypoint_file = open(new_waypoint_file_path, "w")
+    new_waypoint_file.write(total)
+    return total
+
 ### CHECKPOINTS ##
 def prep_map(map_path, checkpoints_path):
     """Prepares a map to be used for other backend functions"""
