@@ -50,9 +50,19 @@ class PIDFastAgent(Agent):
 
         # For returning current time
         self.return_time = False
+        self.times_list = []
+        self.time_var = -5
+        self.most_recent_checkpoint = -1
+        self.start_time = 0
 
     def call_in_carla_runner_to_return_time(self):
         return self.return_time
+
+    def get_diff_in_times(self):
+        times_list_diffs = []
+        for i in range(len(self.times_list) - 1):
+            times_list_diffs.append(self.times_list[i + 1] - self.times_list[i])
+        return(times_list_diffs)
 
     def run_step(self, vehicle: Vehicle,
                  sensors_data: SensorsData) -> VehicleControl:
@@ -67,13 +77,26 @@ class PIDFastAgent(Agent):
         #show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
 
         # Checking for checkpoint
+        # Maining time list
+        self.return_time = False
         cur_checkpoint = checkpoint(self.checkpoints, self.car_coords)
-        if cur_checkpoint is not None:
+
+        if len(self.times_list) == 0.0:
+            self.start_time = self.time_var
+
+        if self.time_var - self.start_time not in self.times_list and cur_checkpoint == self.most_recent_checkpoint:
+            self.times_list.append(self.time_var - self.start_time)
+            self.times_list_diffs = self.get_diff_in_times()
+
+            print("Times", self.times_list)
+            print("Time Diffs", self.times_list_diffs)
+            print("Total Time", sum(self.times_list_diffs))
+            print("\n")
+
+        if cur_checkpoint is not None and cur_checkpoint != self.most_recent_checkpoint:
             print(f"AT CHECKPOINT {cur_checkpoint}")
             self.return_time = True
-            self.call_in_carla_runner_to_return_time()
-            self.return_time = False
-
+            self.most_recent_checkpoint = cur_checkpoint
 
         # Other
         self.transform_history.append(self.vehicle.transform)        

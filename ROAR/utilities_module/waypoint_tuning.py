@@ -43,9 +43,8 @@ def checkpoint(checkpoints, car_coords):
     for i, checkpoint in enumerate(checkpoints):
         i += 1
         if abs(car_coords[0] - checkpoint[0]) < 7 and abs(car_coords[1] - checkpoint[1]) < 7:
-            print(f"CHECKPOINT {i} TOUCHED")
             return i
-        return None
+    return None
 
 ### MAPPING VISUALIZATION ###
 def prep_map_visualization(map_path, checkpoints_path):

@@ -93,6 +93,7 @@
     ]
   },
   "_comments": "// if you would like to use your own map, please put it under ROAR/configurations/YOUR_WAYPOINT.txt",
+  "_waypoint_file_path": "./ROAR/datasets/fast_pid_original/redmellon_waypoints.txt",
   "waypoint_file_path": "./ROAR/datasets/fast_pid/all_waypoints.txt",
   "pid_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_config.json",
   "simple_waypoint_local_planner_config_file_path": "./ROAR/configurations/carla/carla_pid_fast_waypoint_lookahead.json",
