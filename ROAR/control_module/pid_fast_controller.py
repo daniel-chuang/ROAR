@@ -103,7 +103,7 @@ class PIDFastController(Controller):
         #print(round(self.delta_pitch, 2))
         #print(round(wide_error, 2))
         
-        return VehicleControl(throttle=throttle, steering=steering, brake=brake)
+        return VehicleControl(throttle=throttle, steering=steering, brake=brake, gear=3)
 
     @staticmethod
     def find_k_values(vehicle: Vehicle, config: dict) -> np.array:

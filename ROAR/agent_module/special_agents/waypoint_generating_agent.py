@@ -11,11 +11,16 @@ import os
 class WaypointGeneratingAgent(Agent):
     def __init__(self, vehicle: Vehicle, agent_settings: AgentConfig, **kwargs):
         super().__init__(vehicle=vehicle, agent_settings=agent_settings, **kwargs)
-        self.output_file_path: Path = self.output_folder_path / "waypoints.txt"
+        # User input for start and end
+        self.start_checkpoint = agent_settings.spawn_point_id
+        self.end_checkpoint = int(input("What checkpoint are you ending at?"))
+
+        # Output path
+        self.output_file_path: Path = self.output_folder_path / (str(self.end_checkpoint - 1) + ".txt")
         if self.output_folder_path.exists() is False:
             self.output_folder_path.mkdir(exist_ok=True, parents=True)
         self.output_file = self.output_file_path.open('w')
-    
+
         # For waypoint tuning
         self.checkpoints = prep_checkpoints(os.path.join("ROAR", "datasets", "checkpoints.csv"))
 
@@ -29,10 +34,6 @@ class WaypointGeneratingAgent(Agent):
         self.time_var = -5
         self.most_recent_checkpoint = -1
         self.start_time = 0
-
-        # User input for start and end
-        self.start_checkpoint = agent_settings.spawn_point_id
-        self.end_checkpoint = int(input("What checkpoint are you ending at?"))
 
     def call_in_carla_runner_to_return_time(self):
         return self.return_time

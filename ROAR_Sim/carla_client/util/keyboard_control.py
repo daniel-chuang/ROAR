@@ -223,7 +223,7 @@ class KeyboardControl(object):
 
     def _parse_vehicle_keys(self, keys, milliseconds):
 
-        print(self.joystick.RightTrigger, self.joystick.LeftJoystickX)
+        #print(self.joystick.RightTrigger, self.joystick.LeftJoystickX)
         if self.use_joystick:
             throttle = self.joystick.RightTrigger / 1.5
             steering = self.joystick.LeftJoystickX / 4

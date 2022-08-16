@@ -42,7 +42,7 @@ def checkpoint(checkpoints, car_coords):
     car_coords = (int(car_coords[1]), int(car_coords[0]))
     for i, checkpoint in enumerate(checkpoints):
         i += 1
-        if abs(car_coords[0] - checkpoint[0]) < 7 and abs(car_coords[1] - checkpoint[1]) < 7:
+        if abs(car_coords[0] - checkpoint[0]) < 5 and abs(car_coords[1] - checkpoint[1]) < 5:
             return i
     return None
 
