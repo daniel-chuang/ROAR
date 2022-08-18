@@ -226,7 +226,7 @@ class KeyboardControl(object):
         #print(self.joystick.RightTrigger, self.joystick.LeftJoystickX)
         if self.use_joystick:
             throttle = self.joystick.RightTrigger / 1.5
-            steering = self.joystick.LeftJoystickX / 4
+            steering = self.joystick.LeftJoystickX / 5
             if abs(steering) < 0.02:
                 steering = 0
             brake = self.joystick.LeftTrigger

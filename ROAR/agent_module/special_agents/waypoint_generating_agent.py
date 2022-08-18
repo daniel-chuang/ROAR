@@ -13,7 +13,7 @@ class WaypointGeneratingAgent(Agent):
         super().__init__(vehicle=vehicle, agent_settings=agent_settings, **kwargs)
         # User input for start and end
         self.start_checkpoint = agent_settings.spawn_point_id
-        self.end_checkpoint = int(input("What checkpoint are you ending at?"))
+        self.end_checkpoint = int(input("What checkpoint are you ending at? "))
 
         # Output path
         self.output_file_path: Path = self.output_folder_path / (str(self.end_checkpoint - 1) + ".txt")
@@ -34,6 +34,7 @@ class WaypointGeneratingAgent(Agent):
         self.time_var = -5
         self.most_recent_checkpoint = -1
         self.start_time = 0
+        self.start_recording = False
 
     def call_in_carla_runner_to_return_time(self):
         return self.return_time
@@ -56,8 +57,8 @@ class WaypointGeneratingAgent(Agent):
         self.speed = self.vehicle.get_speed(self.vehicle)
         self.throttle = self.vehicle.control.throttle
         self.car_coords = [float(i) for i in self.vehicle.transform.record().split(",")][0:3:2]
-        self.map = show_map(self.map, self.car_coords, self.speed, self.throttle)
-        #show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
+        # self.map = show_map(self.map, self.car_coords, self.speed, self.throttle)
+        show_lane(self.lane_map, self.car_coords, self.speed, self.throttle)
         self.transform_history.append(self.vehicle.transform)
 
         # Checking for checkpoint
@@ -81,11 +82,18 @@ class WaypointGeneratingAgent(Agent):
             print(f"AT CHECKPOINT {cur_checkpoint}")
             self.return_time = True
             self.most_recent_checkpoint = cur_checkpoint
-            if cur_checkpoint == self.end_checkpoint:
-                exit()
+        
+        # Quits the script after the final checkpoint is LEFT
+        if cur_checkpoint is None and self.most_recent_checkpoint == self.end_checkpoint:
+            print("FINAL CHECKPOINT REACHED, TERMINATING SCRIPT")
+            exit()
+
+        # Check to start recording
+        if cur_checkpoint is None and self.most_recent_checkpoint == self.start_checkpoint:
+            self.start_recording = True
 
         # Logging
-        if self.time_counter > 1:
+        if self.time_counter > 1 and self.start_recording == True:
             #print(f"Writing to [{self.output_file_path}]: {self.vehicle.transform}")
             self.output_file.write(self.vehicle.transform.record() + "\n")
         return VehicleControl()

@@ -103,7 +103,15 @@ class PIDFastController(Controller):
         #print(round(self.delta_pitch, 2))
         #print(round(wide_error, 2))
         
-        return VehicleControl(throttle=throttle, steering=steering, brake=brake, gear=3)
+        # Setting gear
+        #print(pitch)
+        gear_quotient = 60
+        gear = math.ceil((current_speed - (2*pitch)) / gear_quotient)
+        if gear == 0:
+            gear += 1
+        #if pitch > 3 and current_speed < 6: gear = 1
+
+        return VehicleControl(throttle=throttle, steering=steering, brake=brake, manual_gear_shift=True, gear=gear)
 
     @staticmethod
     def find_k_values(vehicle: Vehicle, config: dict) -> np.array:

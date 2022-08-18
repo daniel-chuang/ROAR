@@ -169,8 +169,9 @@ class CarlaBridge(Bridge):
             brake=0,
             hand_brake=False,
             reverse=True if control.throttle < 0 else False,
-            manual_gear_shift=False,
-            gear=1,
+            # CHANGE GEARS
+            manual_gear_shift=True,
+            gear = control.gear,
         )
 
     def convert_vector3d_from_agent_to_source(
