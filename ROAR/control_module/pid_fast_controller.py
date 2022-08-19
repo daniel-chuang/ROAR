@@ -77,7 +77,7 @@ class PIDFastController(Controller):
         elif self.delta_pitch > 1.2 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > 0: # big ramp, high speed
             throttle = -1
             brake = 1
-            print("Big ramp high speed", pitch)
+            #print("Big ramp high speed", pitch)
             #print(next_waypoint.record())
         elif sharp_error > 0.6 and current_speed > 85: # narrow turn
             throttle = -1
@@ -86,7 +86,9 @@ class PIDFastController(Controller):
                 throttle = -0.05
                 brake = 1
                 steering *= 0.5
-            print("Narrow turn")
+            elif most_recent_checkpoint in [11]:
+                brake = 0.5
+            # #print("Narrow turn")
         elif abs(steering) > 0.3 and current_speed > 45: # steering control
             throttle = 0.3
             brake = 0
@@ -95,14 +97,22 @@ class PIDFastController(Controller):
                 brake = 0.2
             if most_recent_checkpoint == 12:
                 throttle = 1
-                brake = 1
-            print("Hard steering")
+                brake = 0
+            elif most_recent_checkpoint in [11]:
+                throttle *= 0.05
+                brake = 0.5
+            #print("Hard steering")
         elif wide_error > 0.05 and current_speed > 95: # wide turn
             throttle = max(0.2, 1 - 6.6*pow(wide_error + current_speed*0.0015, 3))
-            if most_recent_checkpoint == 5:
-                throttle *= 0.7
             brake = 0
-            print("Wide turn")
+            if most_recent_checkpoint not in [6, 8, 10, 12, 5, 9, 11]:
+                throttle *= 1.2
+            elif most_recent_checkpoint == 5:
+                throttle *= 0.7
+            elif most_recent_checkpoint in [11]:
+                throttle *= 0.05
+                brake = 0.5
+            #print("Wide turn")
         elif current_speed > self.max_speed:
             throttle = 0.9
             brake = 0
