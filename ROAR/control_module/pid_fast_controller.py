@@ -36,7 +36,7 @@ class PIDFastController(Controller):
         )
         self.logger = logging.getLogger(__name__)
 
-    def run_in_series(self, next_waypoint: Transform, close_waypoint: Transform, far_waypoint: Transform, **kwargs) -> VehicleControl:
+    def run_in_series(self, next_waypoint: Transform, close_waypoint: Transform, most_recent_checkpoint, far_waypoint: Transform, **kwargs) -> VehicleControl:
 
         # run lat pid controller
         steering, error, wide_error, sharp_error = self.lat_pid_controller.run_in_series(next_waypoint=next_waypoint, close_waypoint=close_waypoint, far_waypoint=far_waypoint)
@@ -66,32 +66,35 @@ class PIDFastController(Controller):
             self.delta_pitch = pitch - self.old_pitch
             self.old_pitch = pitch
 
+        #print(pitch, self.delta_pitch)
+
         # throttle/brake control
         if self.force_brake:
             throttle = -1
             brake = 1
-            #print("force break")
+            #print("Force break")
         elif self.delta_pitch < -2.3 and current_speed > 75 and not self.pitch_bypass: # big bump
             throttle = -1
             brake = 1
-            #print("BIG slope")
+            #print("Big slope")
+            #print(next_waypoint.record())
+        elif self.delta_pitch > 1.2 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > 0: # big ramp, high speed
+            throttle = -1
+            brake = 1
+            print("Big ramp high speed", pitch)
             #print(next_waypoint.record())
         elif sharp_error > 0.6 and current_speed > 85: # narrow turn
             throttle = -1
             brake = 1
-            #print("narrow turn")
-        elif self.delta_pitch < -0.35 and current_speed > 90 and not self.pitch_bypass: # small bump
-            throttle = 0
-            brake = 0
-            #print("slope:", round(self.delta_pitch, 3))
-            #print(next_waypoint.record())
-        elif abs(steering) > 0.3 and current_speed > 50: # steering control
+            #print("Narrow turn")
+        elif abs(steering) > 0.3 and current_speed > 45: # steering control
             throttle = 0.3
             brake = 0
-            #print("hard steering")
+            #print("Hard steering")
         elif wide_error > 0.05 and current_speed > 95: # wide turn
             throttle = max(0.2, 1 - 6.6*pow(wide_error + current_speed*0.0015, 3))
             brake = 0
+            #print("Wide turn")
         elif current_speed > self.max_speed:
             throttle = 0.9
             brake = 0

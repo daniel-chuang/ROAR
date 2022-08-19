@@ -105,5 +105,5 @@ class PIDFastAgent(Agent):
             control = VehicleControl()
             self.logger.debug("Path Following Agent is Done. Idling.")
         else:
-            control = self.local_planner.run_in_series()
+            control = self.local_planner.run_in_series(self.most_recent_checkpoint)
         return control
