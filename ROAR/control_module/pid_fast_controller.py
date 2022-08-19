@@ -73,11 +73,6 @@ class PIDFastController(Controller):
             throttle = -1
             brake = 1
             #print("Force break")
-        elif self.delta_pitch < -2.3 and current_speed > 75 and not self.pitch_bypass: # big bump
-            throttle = -1
-            brake = 1
-            #print("Big slope")
-            #print(next_waypoint.record())
         # Section 9 ramps
         elif self.delta_pitch > 1.2 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > 0: # big ramp, high speed
             throttle = -1
