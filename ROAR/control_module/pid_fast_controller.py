@@ -82,7 +82,7 @@ class PIDFastController(Controller):
         elif sharp_error > 0.6 and current_speed > 85: # narrow turn
             throttle = -1
             brake = 1
-            if most_recent_checkpoint == 12:
+            if most_recent_checkpoint in [12]:
                 throttle = -1
                 brake = 1
                 steering = 0.5
@@ -96,7 +96,7 @@ class PIDFastController(Controller):
             if most_recent_checkpoint == 5:
                 throttle = 0.20
                 brake = 0.2
-            if most_recent_checkpoint == 12:
+            if most_recent_checkpoint in [12]:
                 throttle = 1
                 brake = 1
                 steering = 1
@@ -111,13 +111,13 @@ class PIDFastController(Controller):
                 throttle *= 1.2
             elif most_recent_checkpoint == 5:
                 throttle *= 0.5
-            elif most_recent_checkpoint in [11]:
-                throttle *= 0.05
-                brake = 0.5
-            if most_recent_checkpoint == 12:
+            elif most_recent_checkpoint in [12]:
                 throttle = 1
                 brake = 1
                 steering = 1
+            elif most_recent_checkpoint in [11]:
+                throttle *= 0.05
+                brake = 0.5
             print("Wide turn")
         elif current_speed > self.max_speed:
             throttle = 0.9
