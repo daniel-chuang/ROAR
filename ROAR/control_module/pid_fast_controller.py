@@ -74,10 +74,10 @@ class PIDFastController(Controller):
             brake = 1
             #print("Force break")
         # Section 9 ramps
-        elif self.delta_pitch > 0.9 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > 0: # big ramp, high speed
+        elif self.delta_pitch > 0.8 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > -1.0: # big ramp, high speed
             throttle = -1
             brake = 1
-            #print("Big ramp high speed", pitch)
+            print("Big ramp high speed", pitch)
             #print(next_waypoint.record())
         elif sharp_error > 0.6 and current_speed > 85: # narrow turn
             throttle = -1

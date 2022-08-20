@@ -14,7 +14,7 @@ from ROAR.utilities_module.waypoint_tuning import *
 import os
 
 # SWITCH OFF FOR SUBMISSIONS
-competitive_mode = True
+competitive_mode = False
 
 class PIDFastAgent(Agent):
     def __init__(self, target_speed=40, **kwargs):
