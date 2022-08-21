@@ -58,7 +58,7 @@ class SimpleWaypointFollowingLocalPlanner(LocalPlanner):
         Returns:
             None
         """
-        print("CLEARING")
+        # print("CLEARING")
         self.way_points_queue.clear()
         while (
                 self.mission_planner.mission_plan
