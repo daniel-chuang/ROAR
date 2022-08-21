@@ -14,7 +14,7 @@ from ROAR.utilities_module.waypoint_tuning import *
 import os
 
 # SWITCH OFF FOR SUBMISSIONS
-competitive_mode = False
+competitive_mode = True
 
 class PIDFastAgent(Agent):
     def __init__(self, target_speed=40, **kwargs):
@@ -105,15 +105,17 @@ class PIDFastAgent(Agent):
                 print("\n")
 
         if cur_checkpoint is not None and cur_checkpoint != self.most_recent_checkpoint:
-            print(f"AT CHECKPOINT {cur_checkpoint}")
+            if not competitive_mode:
+                print(f"AT CHECKPOINT {cur_checkpoint}")
             self.return_time = True
             self.most_recent_checkpoint = cur_checkpoint
 
         # checking if first turn passed
         if self.most_recent_checkpoint == 12:
-            if at_point((1332.74462890625, 4245.38818359375), car_coords=self.car_coords):
+            if at_point((1332.74462890625, 4245.38818359375), car_coords=self.car_coords) or at_point((1329.954345703125, 4236.50537109375), car_coords=self.car_coords):
                 self.most_recent_checkpoint = 12.5
-                print("REACHED")
+                if not competitive_mode:
+                    print("REACHED")
 
         # Other
         self.transform_history.append(self.vehicle.transform)        

@@ -53,7 +53,7 @@ def at_point(coords, car_coords):
     """Checks if the car has reached a point"""
     car_coords = (int(car_coords[1]), int(car_coords[0]))
     coords = (int(coords[1]), int(coords[0]))
-    if abs(car_coords[0] - coords[0]) < 7 and abs(car_coords[1] - coords[1]) < 7:
+    if abs(car_coords[0] - coords[0]) < 10 and abs(car_coords[1] - coords[1]) < 10:
         return True
     return False
 
