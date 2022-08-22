@@ -111,9 +111,15 @@ class PIDFastAgent(Agent):
             self.most_recent_checkpoint = cur_checkpoint
 
         # checking if first turn passed
-        if self.most_recent_checkpoint == 12:
+        if self.most_recent_checkpoint in [12, 12.25]:
+            # during turn
             if at_point((1332.74462890625, 4245.38818359375), car_coords=self.car_coords) or at_point((1329.954345703125, 4236.50537109375), car_coords=self.car_coords):
                 self.most_recent_checkpoint = 12.5
+                if not competitive_mode:
+                    print("REACHED")
+            # pre turn
+            if at_point((1687.881103515625, 4203.75439453125), car_coords=self.car_coords):
+                self.most_recent_checkpoint = 12.25
                 if not competitive_mode:
                     print("REACHED")
         
