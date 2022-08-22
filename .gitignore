@@ -1,1 +1,2 @@
-ROAR_Sim/__pycache__
+*/__pycache__/*
+*.pyc
