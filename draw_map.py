@@ -1,7 +1,7 @@
 from ROAR.utilities_module.waypoint_tuning import *
 import cv2
 
-crash_logs_file = open("crash_logs.txt", "r")
+crash_logs_file = open("crash_logs_21.txt", "r")
 
 map = prep_map_visualization(os.path.join("ROAR", "datasets", "birds_eye_map.npy"), os.path.join("ROAR", "datasets", "checkpoints.csv"))
 

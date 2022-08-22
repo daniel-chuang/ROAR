@@ -49,11 +49,11 @@ def checkpoint(checkpoints, car_coords):
             return i
     return None
 
-def at_point(coords, car_coords):
+def at_point(coords, car_coords, margin = 10):
     """Checks if the car has reached a point"""
     car_coords = (int(car_coords[1]), int(car_coords[0]))
     coords = (int(coords[1]), int(coords[0]))
-    if abs(car_coords[0] - coords[0]) < 10 and abs(car_coords[1] - coords[1]) < 10:
+    if abs(car_coords[0] - coords[0]) < margin and abs(car_coords[1] - coords[1]) < margin:
         return True
     return False
 

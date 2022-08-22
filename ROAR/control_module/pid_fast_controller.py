@@ -74,8 +74,16 @@ class PIDFastController(Controller):
             brake = 1
             #print("Force break")
         # Section 9 ramps
-        elif self.delta_pitch > 0.8 and current_speed > 115 and not self.pitch_bypass and most_recent_checkpoint == 9 and pitch > -1.0: # big ramp, high speed
+        elif current_speed > 260:
             throttle = -1
+            brake = 1
+        elif self.delta_pitch > 0.7 and current_speed > 100 and not self.pitch_bypass and most_recent_checkpoint in [9] and pitch > -1.0: # big ramp, high speed
+            throttle = -1
+            brake = 1
+            # print("Big ramp high speed", pitch)
+            #print(next_waypoint.record())
+        elif most_recent_checkpoint == 6.5: # big ramp, high speed
+            throttle = 0.75
             brake = 1
             # print("Big ramp high speed", pitch)
             #print(next_waypoint.record())
@@ -83,9 +91,9 @@ class PIDFastController(Controller):
             throttle = -1
             brake = 1
             if most_recent_checkpoint in [12]:
-                throttle = -1
+                throttle = -0.5
                 brake = 1
-                steering = 0.5
+                steering = 1
             elif most_recent_checkpoint in [11]:
                 brake = 0.5
                 steering *= 0.7
@@ -99,7 +107,6 @@ class PIDFastController(Controller):
             if most_recent_checkpoint in [12]:
                 throttle = 1
                 brake = 1
-                steering = 1
             elif most_recent_checkpoint in [11]:
                 throttle *= 0.05
                 brake = 0.5
