@@ -82,7 +82,7 @@ def suppress_warnings():
 def main():
     suppress_warnings()
     agent_class = PIDFastAgent
-    num_trials = 10
+    num_trials = int(input("How many trials do you want? "))
     total_score_array = []
     num_laps = 1
     table = PrettyTable()
