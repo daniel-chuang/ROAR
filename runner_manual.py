@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     warnings.filterwarnings("ignore", module="carla")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--auto", type=str2bool, default=True, help="True to use auto control")
+    parser.add_argument("--auto", type=str2bool, default=False, help="True to use auto control")
 
     warnings.filterwarnings("ignore", module="carla")
     args = parser.parse_args()
