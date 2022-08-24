@@ -235,6 +235,9 @@ class KeyboardControl(object):
             self._control.throttle = abs(throttle)
             self._control.steer = steering
             self._control.brake = brake
+            self._control.reverse = False
+            if self.joystick.A:
+                self._control.gear = 1 if self._control.reverse else -1
         else:
 
             if keys[K_UP] or keys[K_w]:
