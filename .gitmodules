@@ -1,0 +1,3 @@
+[submodule "ROAR_Sim"]
+	path = ROAR_Sim
+	url = https://github.com/augcog/ROAR_Sim
