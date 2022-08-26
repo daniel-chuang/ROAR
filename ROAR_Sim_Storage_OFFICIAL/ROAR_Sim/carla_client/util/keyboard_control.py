@@ -85,9 +85,11 @@ class KeyboardControl(object):
         self._steer_cache = 0.0
         self.use_joystick = False
         try:
-            self.joystick = XboxController()
+            pygame.joystick.init()
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+            self.logger.info(f"Joystick [{self.joystick.get_name()}] detected, Using Joytick")
             self.use_joystick = True
-            pass
         except Exception as e:
             self.logger.info("No joystick detected. Plz use your keyboard instead")
 
@@ -223,21 +225,12 @@ class KeyboardControl(object):
 
     def _parse_vehicle_keys(self, keys, milliseconds):
 
-        #print(self.joystick.RightTrigger, self.joystick.LeftJoystickX)
         if self.use_joystick:
-            throttle = self.joystick.RightTrigger / 1.5
-            steering = self.joystick.LeftJoystickX / 5
-            if abs(steering) < 0.02:
-                steering = 0
-            brake = self.joystick.LeftTrigger
+            throttle, steering = self._parse_joystick()
             self._control.manual_gear_shift = True
             self._control.gear = -1 if throttle < 0 else 1
             self._control.throttle = abs(throttle)
             self._control.steer = steering
-            self._control.brake = brake
-            self._control.reverse = False
-            if self.joystick.A:
-                self._control.gear = 1 if self._control.reverse else -1
         else:
 
             if keys[K_UP] or keys[K_w]:
@@ -290,100 +283,3 @@ class KeyboardControl(object):
     @staticmethod
     def _is_quit_shortcut(key):
         return (key == K_ESCAPE) or (key == K_q and pygame.key.get_mods() & KMOD_CTRL)
-
-
-# For Xbox 1 controller
-from inputs import get_gamepad
-import math
-import threading
-
-class XboxController(object):
-    MAX_TRIG_VAL = math.pow(2, 8)
-    MAX_JOY_VAL = math.pow(2, 15)
-
-    def __init__(self):
-
-        self.LeftJoystickY = 0
-        self.LeftJoystickX = 0
-        self.RightJoystickY = 0
-        self.RightJoystickX = 0
-        self.LeftTrigger = 0
-        self.RightTrigger = 0
-        self.LeftBumper = 0
-        self.RightBumper = 0
-        self.A = 0
-        self.X = 0
-        self.Y = 0
-        self.B = 0
-        self.LeftThumb = 0
-        self.RightThumb = 0
-        self.Back = 0
-        self.Start = 0
-        self.LeftDPad = 0
-        self.RightDPad = 0
-        self.UpDPad = 0
-        self.DownDPad = 0
-
-        self._monitor_thread = threading.Thread(target=self._monitor_controller, args=())
-        self._monitor_thread.daemon = True
-        self._monitor_thread.start()
-
-
-    def read(self): # return the buttons/triggers that you care about in this methode
-        left_x = self.LeftJoystickX
-        left_y = self.LeftJoystickY
-        right_x = self.RightJoystickX
-        right_y = self.RightJoystickY
-        a = self.A
-        x = self.Y
-        y = self.X # b=1, x=2
-        b = self.B
-        rt = self.RightTrigger
-        lt = self.LeftTrigger
-        return [left_x, left_y, right_x, right_y, a, x, y, b, rt, lt]
-
-
-    def _monitor_controller(self):
-        while True:
-            events = get_gamepad()
-            for event in events:
-                if event.code == 'ABS_Y':
-                    self.LeftJoystickY = event.state / XboxController.MAX_JOY_VAL # normalize between -1 and 1
-                elif event.code == 'ABS_X':
-                    self.LeftJoystickX = event.state / XboxController.MAX_JOY_VAL # normalize between -1 and 1
-                elif event.code == 'ABS_RY':
-                    self.RightJoystickY = event.state / XboxController.MAX_JOY_VAL # normalize between -1 and 1
-                elif event.code == 'ABS_RX':
-                    self.RightJoystickX = event.state / XboxController.MAX_JOY_VAL # normalize between -1 and 1
-                elif event.code == 'ABS_Z':
-                    self.LeftTrigger = event.state / XboxController.MAX_TRIG_VAL # normalize between 0 and 1
-                elif event.code == 'ABS_RZ':
-                    self.RightTrigger = event.state / XboxController.MAX_TRIG_VAL # normalize between 0 and 1
-                elif event.code == 'BTN_TL':
-                    self.LeftBumper = event.state
-                elif event.code == 'BTN_TR':
-                    self.RightBumper = event.state
-                elif event.code == 'BTN_SOUTH':
-                    self.A = event.state
-                elif event.code == 'BTN_NORTH':
-                    self.X = event.state
-                elif event.code == 'BTN_WEST':
-                    self.Y = event.state
-                elif event.code == 'BTN_EAST':
-                    self.B = event.state
-                elif event.code == 'BTN_THUMBL':
-                    self.LeftThumb = event.state
-                elif event.code == 'BTN_THUMBR':
-                    self.RightThumb = event.state
-                elif event.code == 'BTN_SELECT':
-                    self.Back = event.state
-                elif event.code == 'BTN_START':
-                    self.Start = event.state
-                elif event.code == 'BTN_TRIGGER_HAPPY1':
-                    self.LeftDPad = event.state
-                elif event.code == 'BTN_TRIGGER_HAPPY2':
-                    self.RightDPad = event.state
-                elif event.code == 'BTN_TRIGGER_HAPPY3':
-                    self.UpDPad = event.state
-                elif event.code == 'BTN_TRIGGER_HAPPY4':
-                    self.DownDPad = event.state
