@@ -94,8 +94,8 @@ def show_map(data, car_coords, speed = None, throttle = None):
     # drawing car coords
     if car_coords != None:
         car_coords = (int(car_coords[1]), int(car_coords[0]))
-        speed_width = 40
-        throttle_width = 20
+        speed_width = 10
+        throttle_width = 5
         if speed != None:
             data[car_coords[0]-speed_width:car_coords[0]+speed_width, car_coords[1]-speed_width:car_coords[1]+speed_width] = (0, speed, 255 - speed)
         if throttle != None:
