@@ -1,6 +1,6 @@
 # First Place Solution in Summer 2022 ROAR S1/S2 Series
 
-Written by Daniel Chuang, this paper describes his team's experience and thought process for their first place solution in the Summer 2022 ROAR S1/S2 Series Competition with teammates Lucy Wang and Chris Wang. Iterating off of Aaron Xie's previous winning solution, he reprogrammed the car's controller to be more aggressive, and developed a suite of tools to optimize testing and waypoint tuning.
+Written by Daniel Chuang, this paper describes his team's experience and thought process for their first place solution in the Summer 2022 ROAR S1/S2 Series Competition with teammates Lucy Wang and Chris Wang. Iterating off of Aaron Xie's previous winning solution, the team reprogrammed the car's controller to be more aggressive, and developed a suite of tools to optimize testing and waypoint tuning.
 
 The code for the solution can be found here: [https://github.com/daniel-chuang/ROAR](https://github.com/daniel-chuang/ROAR)
 
