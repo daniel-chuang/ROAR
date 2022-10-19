@@ -54,7 +54,7 @@ In the process of developing the mapping tools explained in the previous section
 
 The previous solution kept the car at the default gearing. However, our controller toggled the transmission to be manual rather than automatic, changing the gear throughout the lap through a formula arrived upon after plenty of testing:
 
-- ![equation]("https://latex.codecogs.com/gif.latex?\text{gear} = \lceil\frac{\text{speed} - 2\cdot \text{pitch}}{60}\rceil")
+- ![equation](https://latex.codecogs.com/gif.latex?\text{gear}=\lceil\frac{\text{speed}-2\cdot\text{pitch}}{60}\rceil)
 
 Since higher gears are smaller in radius, there is less inertia rotating the wheel, but a faster angular velocity. This means that higher gears are more efficient when the car is moving at a high speed, and doesn't need much more acceleration.
 
