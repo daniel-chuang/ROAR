@@ -28,6 +28,8 @@ One of the immediate challenges that we encountered in this competition was the 
 
 In response to this issue, we created a program that generates a live map of the race course that displays the car's current position, as well its past positions. By doing so, we were able to constantly run the algorithm, keeping track of locations at which the car would crash without needing a team member to constantly monitor it. Every time the car crashed, the program would save an image of the map, so we were able to see exactly what happened during the collision.
 
+![Map](ROAR/datasets/map_with_checkpoints.png)
+
 In order to create the map, we downloaded the occupancy map of the race course [https://roar.berkeley.edu/berkeley-major-map/] and imported it as a 2-dimensional Numpy array. Then, we created 12 checkpoints, dividing the map into smaller sections. Using this data, we programmed a function that takes the coordinates of the car using the Carla API, and records it onto a birds-eye view of the map during a run by modifying the Numpy array and displaying it with OpenCV, with different colors scaling off of speed and magnitude of acceleration.
 
 ### Checkpoint by Checkpoint Timing
@@ -81,6 +83,8 @@ On the other hand, when entering a turn that then continues into another turn, w
 ## Shortcut
 
 We discovered throughout the map that there were many off-road routes that we could rulefully take in order to reduce the total distance traveled, and therefore our lap time. In order to use these new shortcuts, we created new sets of waypoints for our controllers to follow. Most of these shortcuts resulted in only marginal differences in lap time, but there was one major reroute between Checkpoint 5 and Checkpoint 6 that we estimate to have reduced our lap time by 24 seconds. However, even without using these shortcuts, our solution would've won first place.
+
+![Map](ROAR/datasets/map_with_cornercuts.png)
 
 ## Conclusion
 
