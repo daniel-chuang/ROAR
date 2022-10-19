@@ -32,7 +32,7 @@ In order to create the map, we downloaded the occupancy map of the race course [
 
 ### Checkpoint by Checkpoint Timing
 
-Another challenge with measuring the efficiency of our algorithms was timing the immense length of the race course. Since the goal was to achieve maximum speed and minimal time, the status quo for observing improvements was to finish a complete lap, and to compare that to previous lap times.
+Another challenge with measuring the efficiency of our algorithms was timing the immense duration of the lap. Since the goal was to achieve maximum speed and minimal time, the status quo for observing improvements was to finish a complete lap, and to compare that to previous lap times.
 
 However, a full lap takes hundreds of seconds to complete, so between every change of the algorithm our team would have to wait for a long time before recieving feedback as to whether or not to keep that change, which was extremely inefficient when making minor changes in small sections of the race course. Additionally, new changes can cause the car to crash, which prevents us from recieving any feedback at all, as the lap will not be completed.
 
